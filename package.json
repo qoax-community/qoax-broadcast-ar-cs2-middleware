@@ -1,0 +1,28 @@
+{
+  "name": "qoax-broadcast-ar-cs2-middleware",
+  "version": "0.0.1",
+  "description": "Middleware scripts for gathering CS2 HLAE data and forwarding it to UE5 Live Link.",
+  "homepage": "https://github.com/qoax-community/qoax-broadcast-ar-cs2-middleware#readme",
+  "bugs": {
+    "url": "https://github.com/qoax-community/qoax-broadcast-ar-cs2-middleware/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qoax-community/qoax-broadcast-ar-cs2-middleware.git"
+  },
+  "license": "ISC",
+  "author": "qoax-community",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.6.3"
+  }
+}
