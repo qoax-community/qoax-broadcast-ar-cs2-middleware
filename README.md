@@ -112,6 +112,43 @@ where data is sent to:
 If HLAE always runs on the same machine as this middleware, you can safely ignore this flag and
 rely on the default.
 
+## HLAE integration script
+
+[hlae/cam-export.js](hlae/cam-export.js) is the HLAE mirv-script that runs inside CS2/HLAE itself.
+It hooks the engine's view render loop, reads the live spectator camera (position, angles, FOV),
+and streams it as JSON to this middleware's WebSocket server. It connects to `ws://127.0.0.1:3000`
+by default (matching this project's default `websocket-host`/`websocket-port`) and retries the
+connection every 2 seconds if it's dropped or was never established.
+
+HLAE loads scripts from its own installation folder, not from this repository, so the script
+needs to be placed at:
+
+```
+%ProgramFiles(x86)%\HLAE\resources\AfxHookSource2\snippets\cam-export.js
+```
+
+### Linking the script into HLAE
+
+Run the helper script from a PowerShell prompt to link the version-controlled copy into your HLAE
+installation:
+
+```powershell
+./scripts/link-hlae-snippet.ps1
+```
+
+This creates a symbolic link so future edits to `hlae/cam-export.js` are picked up by HLAE
+automatically. Creating a file symlink on Windows normally requires either an Administrator
+PowerShell session or Developer Mode enabled (Settings > Update & Security > For developers). If
+neither is available, the script falls back to copying the file instead — in that case, re-run it
+after making changes to keep HLAE's copy in sync.
+
+If HLAE is installed somewhere other than the default `Program Files (x86)\HLAE`, pass its path
+explicitly:
+
+```powershell
+./scripts/link-hlae-snippet.ps1 -HlaePath "D:\Tools\HLAE"
+```
+
 ## Project structure
 
 ```
@@ -122,6 +159,10 @@ src/
   packet.ts       HLAE payload validation and FreeD packet packing
   types.ts        Shared TypeScript types
   index.test.ts   Unit tests
+hlae/
+  cam-export.js   HLAE mirv-script that streams camera data to the bridge
+scripts/
+  link-hlae-snippet.ps1   Links hlae/cam_export.js into the HLAE installation
 ```
 
 ## FreeD packet format
