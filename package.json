@@ -1,6 +1,6 @@
 {
   "name": "qoax-broadcast-ar-cs2-middleware",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Middleware scripts for gathering CS2 HLAE data and forwarding it to UE5 Live Link.",
   "homepage": "https://github.com/qoax-community/qoax-broadcast-ar-cs2-middleware#readme",
   "bugs": {
