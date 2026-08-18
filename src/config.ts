@@ -7,6 +7,13 @@ export const DEFAULT_BRIDGE_OPTIONS: BridgeOptions = {
   websocketPort: 3000,
 };
 
+export const USAGE =
+  'Usage: node dist/index.js [--unreal-host 127.0.0.1] [--unreal-port 40000] [--websocket-host 127.0.0.1] [--websocket-port 3000] [--unreal-address 127.0.0.1:40000] [--websocket-address ws://127.0.0.1:3000]';
+
+export function isHelpRequested(args: string[] = process.argv.slice(2)): boolean {
+  return args.some((arg) => arg === '--help' || arg === '-h');
+}
+
 function getFlagValue(args: Map<string, string>, candidates: string[]): string | undefined {
   for (const candidate of candidates) {
     const value = args.get(candidate);
@@ -88,10 +95,6 @@ export function parseBridgeOptions(args: string[] = process.argv.slice(2)): Brid
     websocketHost: websocketConfig.host,
     websocketPort: parseInteger(getFlagValue(flags, ['websocket-port', 'ws-port']), websocketConfig.port),
   };
-
-  if (getFlagValue(flags, ['help', 'h']) !== undefined) {
-    console.log('Usage: node dist/index.js [--unreal-host 127.0.0.1] [--unreal-port 40000] [--websocket-host 127.0.0.1] [--websocket-port 3000] [--unreal-address 127.0.0.1:40000] [--websocket-address ws://127.0.0.1:3000]');
-  }
 
   return parsedOptions;
 }

@@ -1,8 +1,9 @@
 # qoax-broadcast-ar-cs2-middleware
 
 Middleware that receives CS2 HLAE camera data over WebSocket, converts it into a
-[FreeD](https://en.wikipedia.org/wiki/FreeD) UDP packet, and forwards it to Unreal Engine 5's
-Live Link so a virtual/AR camera can follow the in-game spectator camera in real time.
+[FreeD](https://dev.epicgames.com/documentation/unreal-engine/live-link-freed--in-unreal-engine)
+UDP packet, and forwards it to Unreal Engine 5's Live Link so a virtual/AR camera can follow the
+in-game spectator camera in real time.
 
 ## How it works
 

@@ -1,12 +1,21 @@
-import { parseBridgeOptions } from './config';
+import { isHelpRequested, parseBridgeOptions, USAGE } from './config';
 import { startBridge } from './server';
 
-if (require.main === module) {
+function main(): void {
+  if (isHelpRequested()) {
+    console.log(USAGE);
+    return;
+  }
+
   const config = parseBridgeOptions();
   startBridge(config);
 }
 
+if (require.main === module) {
+  main();
+}
+
 export { startBridge } from './server';
-export { parseBridgeOptions } from './config';
+export { isHelpRequested, parseBridgeOptions, USAGE } from './config';
 export { buildFreeDPacket, clamp, packAngle, packPosition, packZoom, parseHlaeData, writeInt24BEClamped } from './packet';
 export type { BridgeOptions, HlaeCameraData } from './types';

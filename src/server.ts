@@ -22,6 +22,7 @@ export function startBridge(options: Partial<BridgeOptions> = {}): {
 
   wss.on('listening', () => {
     console.log(`Listening for HLAE connections on ws://${config.websocketHost}:${config.websocketPort}`);
+    console.log(`Forwarding FreeD packets to Unreal Engine at udp://${config.unrealHost}:${config.unrealPort}`);
   });
 
   wss.on('connection', (ws: WebSocket) => {
