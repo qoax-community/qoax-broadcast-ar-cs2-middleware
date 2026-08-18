@@ -149,9 +149,34 @@ explicitly:
 ./scripts/link-hlae-snippet.ps1 -HlaePath "D:\Tools\HLAE"
 ```
 
+## Releases
+
+Pushing a tag matching `v*.*.*` (e.g. `v0.1.0`) triggers [.github/workflows/release.yml](.github/workflows/release.yml),
+which builds standalone executables — no local Node.js install required to run them — for:
+
+- Windows (`qoax-broadcast-ar-cs2-middleware-win.exe`)
+- macOS (`qoax-broadcast-ar-cs2-middleware-macos`)
+- Linux (`qoax-broadcast-ar-cs2-middleware-linux`)
+
+and publishes them as a GitHub release alongside [hlae/cam-export.js](hlae/cam-export.js). Each
+executable accepts the same CLI flags described above (e.g.
+`./qoax-broadcast-ar-cs2-middleware-linux --unreal-address 192.168.3.177:40000`).
+
+To build the executables locally:
+
+```bash
+npm run package
+```
+
+This builds the TypeScript project and uses [`@yao-pkg/pkg`](https://github.com/yao-pkg/pkg) to
+produce the three binaries in `release/`.
+
 ## Project structure
 
 ```
+.github/
+  workflows/
+    release.yml   Builds and publishes standalone executables on tag push
 src/
   index.ts        CLI entry point: parses flags and starts the bridge
   config.ts       CLI argument parsing and default configuration
@@ -162,7 +187,7 @@ src/
 hlae/
   cam-export.js   HLAE mirv-script that streams camera data to the bridge
 scripts/
-  link-hlae-snippet.ps1   Links hlae/cam_export.js into the HLAE installation
+  link-hlae-snippet.ps1   Links hlae/cam-export.js into the HLAE installation
 ```
 
 ## FreeD packet format

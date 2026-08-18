@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build standalone executables
+        run: npm run package
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            release/qoax-broadcast-ar-cs2-middleware-win.exe
+            release/qoax-broadcast-ar-cs2-middleware-macos
+            release/qoax-broadcast-ar-cs2-middleware-linux
+            hlae/cam-export.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
