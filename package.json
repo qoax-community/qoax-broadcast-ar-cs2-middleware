@@ -19,10 +19,14 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "test": "npm run build"
+    "test": "npm run build && node --test dist/index.test.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",
+    "@types/ws": "^8.18.0",
     "typescript": "^5.6.3"
   }
 }
