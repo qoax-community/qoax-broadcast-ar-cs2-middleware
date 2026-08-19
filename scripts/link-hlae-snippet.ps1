@@ -6,12 +6,13 @@
 .DESCRIPTION
     Creates a symbolic link at the HLAE snippets folder pointing back to
     hlae\cam-export.js in this repository. Creating a file symlink on Windows
-    normally requires an elevated (Administrator) PowerShell session, or Developer
-    Mode enabled (Settings > Update & Security > For developers).
+    normally requires an elevated (Administrator) PowerShell session, so this
+    script automatically relaunches itself elevated (via a UAC prompt) if it
+    isn't already running as Administrator.
 
-    If a symlink cannot be created (e.g. no admin rights and Developer Mode is
-    off), the script falls back to copying the file instead. Copies will not
-    reflect future edits automatically - re-run this script after changes.
+    If a symlink still cannot be created, the script falls back to copying the
+    file instead. Copies will not reflect future edits automatically - re-run
+    this script after changes.
 
 .PARAMETER HlaePath
     Path to the HLAE installation. Defaults to the standard 32-bit Program Files
@@ -25,10 +26,21 @@
 #>
 
 param(
-    [string]$HlaePath = "$Env:ProgramFiles(x86)\HLAE"
+    [string]$HlaePath = "$Env:ProgramFiles (x86)\HLAE"
 )
 
 $ErrorActionPreference = 'Stop'
+
+$isElevated = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isElevated) {
+    Write-Host "Not running elevated - relaunching as Administrator..."
+    $argList = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', "`"$PSCommandPath`"")
+    if ($PSBoundParameters.ContainsKey('HlaePath')) {
+        $argList += @('-HlaePath', "`"$HlaePath`"")
+    }
+    Start-Process -FilePath 'powershell.exe' -ArgumentList $argList -Verb RunAs
+    exit 0
+}
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $source = Join-Path $repoRoot 'hlae\cam-export.js'
