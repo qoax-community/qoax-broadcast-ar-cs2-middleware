@@ -18,47 +18,23 @@ flowchart LR
 2. The middleware validates and converts each message into a 29-byte FreeD packet.
 3. The packet is sent over UDP to the configured Unreal Engine endpoint.
 
-## Requirements
+## Requirements, install, build, run & test
 
-- Node.js 18+
-- npm
-
-## Install
+Requires Node.js 18+ and npm.
 
 ```bash
 npm install
-```
-
-## Build
-
-```bash
 npm run build
-```
-
-Compiles TypeScript from `src/` to `dist/`.
-
-## Run
-
-```bash
 npm run start
-```
-
-Or run the compiled entry point directly:
-
-```bash
-node dist/index.js
-```
-
-For active development, `npm run dev` runs the TypeScript compiler in watch mode.
-
-## Test
-
-```bash
 npm test
 ```
 
-Builds the project and runs the unit tests (Node's built-in test runner) against the compiled
-`dist/index.test.js`.
+- `npm install` installs dependencies.
+- `npm run build` compiles TypeScript from `src/` to `dist/`.
+- `npm run start` runs the compiled bridge; equivalent to `node dist/index.js`. For active
+  development, `npm run dev` runs the TypeScript compiler in watch mode instead.
+- `npm test` builds the project and runs the unit tests (Node's built-in test runner) against the
+  compiled `dist/index.test.js`.
 
 ## CLI configuration
 
@@ -127,6 +103,18 @@ needs to be placed at:
 ```
 %ProgramFiles(x86)%\HLAE\resources\AfxHookSource2\snippets\cam-export.js
 ```
+
+### Installing HLAE and launching CS2
+
+Install [HLAE](https://www.hlae.info/) and use its "Launch CS2 ..." dialog to start the game with
+the script loaded. Set the custom command line options to:
+
+```
+-console +sv_lan 1 +mirv_script_load cam-export.js
+```
+
+`-insecure` is required (and enabled automatically) since VAC-secured servers block HLAE's hooks
+and may result in a VAC ban.
 
 ### Linking the script into HLAE
 
