@@ -39,7 +39,10 @@ npm test
 ## CLI configuration
 
 The middleware is a CLI tool and accepts flags to configure both endpoints. All flags are
-optional; localhost defaults are used when a flag is omitted.
+optional; localhost defaults are used when a flag is omitted. Instead of building from source, you
+can also download a prebuilt executable from the [Releases](../../releases) tab (see
+[Releases](#releases) below) — the examples below use the Windows executable, but the same flags
+apply to the Linux/macOS binaries and `node dist/index.js`.
 
 | Flag | Description | Default |
 | --- | --- | --- |
@@ -57,22 +60,29 @@ address when both are provided.
 
 ### Examples
 
-Use defaults (everything on localhost):
+Use defaults (everything on localhost) — `node dist/index.js` requires a local Node.js install and
+a build, while the `.exe` is a standalone binary from the [Releases](../../releases) tab:
 
 ```bash
 node dist/index.js
 ```
 
+or
+
+```powershell
+./qoax-broadcast-ar-cs2-middleware-win.exe
+```
+
 Point to a specific Unreal Engine machine on the network:
 
-```bash
-node dist/index.js --unreal-address 192.168.3.177:40000
+```powershell
+./qoax-broadcast-ar-cs2-middleware-win.exe --unreal-address 192.168.3.177:40000
 ```
 
 Expose the WebSocket listener on all network interfaces (e.g. HLAE runs on another machine):
 
-```bash
-node dist/index.js --websocket-host 0.0.0.0
+```powershell
+./qoax-broadcast-ar-cs2-middleware-win.exe --websocket-host 0.0.0.0
 ```
 
 ### Notes on `websocket-host`
